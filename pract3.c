@@ -3,10 +3,11 @@
 #include <math.h>
 #include <time.h>
 #define TAM 1024
-#define ANGULO(j, k) (((-2*M_PI)/TAM)*(j)*(k)) 
+#define PI 3.14
+#define ANGULO(j, k) (((-2*PI)/TAM)*(j)*(k)) 
 
 void dftc();
-void dftsse();
+double dftsse();
 void imprime_resul();
 
 double val_complex[TAM][2];
@@ -19,16 +20,23 @@ int main() {
 		val_complex[i][0] = (drand48() * 100) - 50;
 		val_complex[i][1] = (drand48() * 100) - 50;
 	}
-	clock_t start_c, fin_c, start_sse, fin_sse;
-	start_c = clock(); 
+	time_t inicioa, finala, iniciob, finalb;
+	
+	inicioa = time(NULL);
 	dftc();
-	fin_c = clock();
+	finala = time(NULL);
+	//double enc = difftime (final, inicio);
 	imprime_resul();
-	start_sse = clock();
+	iniciob = time(NULL);
 	dftsse();
-	fin_sse = clock();
-	printf("Tiempo C: %f\nTiempo SSE: %f\n", 
-		((double)fin_c - (double)start_c)/CLOCKS_PER_SEC, ((double)fin_sse - (double)start_sse)/CLOCKS_PER_SEC);
+	finalb = time(NULL);
+printf("%llu\n", (unsigned long long)inicioa);
+printf("%llu\n", (unsigned long long)finala);
+printf("%llu\n", (unsigned long long)iniciob);
+printf("%llu\n", (unsigned long long)finalb);
+	//printf("%f, %f\n", difftime (final, inicio), enc);
+	//imprime_resul();
+
 	return 0;
 }
 
