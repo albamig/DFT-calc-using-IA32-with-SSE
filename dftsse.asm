@@ -27,13 +27,13 @@ segment .text
 				call Angulo
 				fsin
 				fstp qword[angulo]
-				movlpd xmm1, [angulo]					; xmm1(baja) = sin(-2*pi*j*k/1024)
-				movhpd xmm3, [angulo]					; xmm3(alta) =  xmm1(baja)
+				movhpd xmm1, [angulo]					; xmm1(alta) = sin(-2*pi*j*k/1024)
+				movlpd xmm3, [angulo]					; xmm3(baja) =  xmm1(baja)
 				call Angulo
 				fcos
 				fstp qword[angulo]
-				movhpd xmm1, [angulo]					; xmm1(alta) = cos(-2*pi*j*k/1024)
-				movlpd xmm3, [angulo]					; xmm3(baja) = xmm1(alta)
+				movlpd xmm1, [angulo]					; xmm1(baja) = cos(-2*pi*j*k/1024)
+				movhpd xmm3, [angulo]					; xmm3(alta) = xmm1(alta)
 				mulpd xmm0, xmm1					; xmm0(baja, alta) = parte real * (baja)sin y (alta)cos
 				mulpd xmm2, xmm3					; xmm2(baja, alta) =  parte imaginaria * (baja)cos y (alta)sin
 				addsubpd xmm0, xmm2					; xmm0 = (baja)parte imaginaria del producto, (alta)parte real
@@ -55,15 +55,20 @@ segment .text
 
 		Angulo:
 			finit
-			fild qword[TAM]
+			
+b1:
 			fldpi
 			fldpi
 			faddp
+b2:
 			fild qword[menosuno]
 			fmulp
+			fild qword[TAM]
+b3:
 			fdivp
-			fld qword[j]
+b4:
+			fild qword[j]
 			fmulp
-			fld qword[k]
+			fild qword[k]
 			fmulp
 			ret
