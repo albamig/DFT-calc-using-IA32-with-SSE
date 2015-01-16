@@ -5,6 +5,8 @@ En mas detalle y a modo de ejemplo, los resultados exactos obtenidos en una de l
 	Parte IA32: 205.349 ms
 lo que nos conduce a la conclusión esperada de que una función escrita en ANSI C se ejecuta mas lentamente que otra con la misma funcionalidad implementada en ensamblador con un buen algoritmo diseñado especificamente para resolver ese problema.
 
+Nota: El cálculo del tiempo que tardan en ejecutarse los algoritmos está probado con rutinas que realizan las mismas operaciones (calcular cada dft con datos del array val_complex y almacenar los resultados en res_complex), por lo que son bien comparables.
+
 Llegados a este punto, nos podría surgir la siguiente cuestión: ¿Es realmente tanto mas rápido como esperábamos?.
 La respuesta mas natural es "no", pues nos imaginaríamos el programa compilado en ANSI C como un conjunto de instrucciones generadas sin mejora de implementación alguna y con multitud de cargas y almacenamientos en memoria para salvar la gran cantidad de datos que se producirían por generar 1024 números complejos que no podrían estar permanentemente en los registros EAX, EBX, ECX y EDX.
 Buscando respuestas ante esta cuestión hemos desensamblado la función "dftc" con la opción "disas" del depurador GDB y hemos podido comprobar que GCC, el compilador utilizado, incluye en sus últimas versiones implementación para la extensión SSE y hace uso en la medida de lo posible de los registros XMM que ésta pone a disposición del programador (como se muestra en la imagen).
